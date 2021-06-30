@@ -1,0 +1,13 @@
+.idea/
+**/output/
+**/project/project/
+**/project/target/
+**/target/
+target/
+**/tmp/
+*.jar
+*.tar.gz
+*.iml
+*.log
+.bsp/
+project/
