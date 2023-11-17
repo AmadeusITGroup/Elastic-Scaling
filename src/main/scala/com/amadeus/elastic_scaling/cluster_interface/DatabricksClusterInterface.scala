@@ -10,6 +10,20 @@ import scala.collection.JavaConverters._
 
 import scala.util.{Failure, Success, Try}
 
+/**
+ * This Cluster Interface implemenation allows to scale your Databricks Cluster
+ * working with Structured Streamings queries.
+ *
+ * This implementation use the [DataBricks Java SDK](https://github.com/databricks/databricks-sdk-java)
+ * for interfacing with the DataBricks platform. Some configurations keys need to be setup, in order to authentify the user
+ * performing the call to the API; usually this is achieved via PAT or Service Principal authentication.
+ *
+ * The logic to determine if the cluster is already upscaling or not (the `isClusterScaling` method) is implemented
+ * via checks on the actual active workers in the cluster, and the target worker number.
+ *
+ * @param sparkSession The spark session for interacting with the cluster.
+ *
+ */
 case class DatabricksClusterInterface(implicit sparkSession: SparkSession)
   extends ClusterInterface {
 
