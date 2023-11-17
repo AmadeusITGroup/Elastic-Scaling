@@ -1,10 +1,8 @@
 name := "elastic_scaling"
-
 organization := "com.amadeus"
-
 ThisBuild / versionScheme := Some("semver-spec")
 
-version := "2.0.0"
+releaseIgnoreUntrackedFiles := true
 
 scalaVersion := "2.12.12"
 
