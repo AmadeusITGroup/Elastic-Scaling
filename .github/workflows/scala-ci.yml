@@ -32,6 +32,8 @@ jobs:
 
   publish:
     runs-on: ubuntu-latest
+    # Add a condition to run only on the main branch
+    if: github.ref == 'refs/heads/master'
 
     needs: [ build ]
 
