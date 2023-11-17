@@ -1,16 +1,17 @@
 package com.amadeus.elastic_scaling
 
 import com.amadeus.elastic_scaling.config.ElasticConfig
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 class ElasticScalingTest
-  extends FlatSpec
+  extends AnyFlatSpec
   with com.holdenkarau.spark.testing.DatasetSuiteBase
   with Matchers {
   
   behavior of "ElasticScalingTest"
   
-  def elasticScaling() = {
+  def elasticScaling(): ElasticScaling = {
     val configuredBatchDuration = 10000  // 10 s
   
     // threshold high = 1.0

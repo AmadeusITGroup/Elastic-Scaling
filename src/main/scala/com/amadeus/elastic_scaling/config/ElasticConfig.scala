@@ -39,11 +39,14 @@ object ElasticConfig {
   def apply(spark: SparkSession): ElasticConfig = {
 
     val active: Boolean = spark.conf.getOption("com.amadeus.elastic_scaling.active").getOrElse("false").toBoolean
-    val thresholdHigh: Double = spark.conf.getOption("com.amadeus.elastic_scaling.threshold.high").getOrElse("1.0").toDouble
-    val thresholdLow: Double = spark.conf.getOption("com.amadeus.elastic_scaling.threshold.low").getOrElse("0.75").toDouble
+    val thresholdHigh: Double = spark.conf
+      .getOption("com.amadeus.elastic_scaling.threshold.high").getOrElse("1.0").toDouble
+    val thresholdLow: Double = spark.conf
+      .getOption("com.amadeus.elastic_scaling.threshold.low").getOrElse("0.75").toDouble
     val executorsHigh: Int = spark.conf.getOption("com.amadeus.elastic_scaling.executors.max").getOrElse("10").toInt
     val executorsMin: Int = spark.conf.getOption("com.amadeus.elastic_scaling.executors.min").getOrElse("1").toInt
-    val executorsSmoothingFactor: Double = spark.conf.getOption("com.amadeus.elastic_scaling.executors.smoothing_factor").getOrElse("0.6").toDouble
+    val executorsSmoothingFactor: Double = spark.conf.
+      getOption("com.amadeus.elastic_scaling.executors.smoothing_factor").getOrElse("0.6").toDouble
   
     
     logger.info(s"Elastic Config is Active: ${active}")

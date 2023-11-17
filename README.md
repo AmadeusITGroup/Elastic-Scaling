@@ -34,7 +34,7 @@ Change the parameters in build.sbt if you need to modify the version of Scala an
 How to use
 ==========
 
-First, define the properties [in square brackets the default value] in the spark conf:
+First, define the properties [in square brackets the default value] in the spark conf for configuring Elastic Scaling behaviour:
 
     "com.amadeus.elastic_scaling.active" -> the library is activated or not -> true or [false]
     "com.amadeus.elastic_scaling.threshold.high" -> the workload multiplier above which the library requests new executors -> a Double value [1.0]
@@ -43,9 +43,33 @@ First, define the properties [in square brackets the default value] in the spark
     "com.amadeus.elastic_scaling.executors.min" -> the minimum number of executors to allocate for the job -> an Int value [1]
     "com.amadeus.elastic_scaling.executors.smoothing_factor" -> the smoothing factor for mean occupation calculation -> a Double value [0.6] between (0.0, 1.0]
 
+The dafault values provides a reasonable default configuration adapt to most use-cases. The only needed change is the `active` -> `true` 
+
+Then configure the selected Cluster Interface, in order to be able to perform operation such as worker increase or decrease.
+
+    "com.amadeus.elastic_scaling.cluster_interface" -> Select the needed cluster interface, such as "com.amadeus.elastic_scaling.cluster_interface.DatabricksClusterInterface"
+
+In case of `DatabricksClusterInterface`, you have to provide:
+
+    "com.amadeus.elastic_scaling.host" -> Databricks workspace host for API interaction (example: https://adb-nnn.mm.azuredatabricks.net/)
+    "com.amadeus.elastic_scaling.auth_mode" -> Authorisation mode to be used. Can be PAT for Personal Access Token mode, or SP for Service Principal authentication.
+
+    "com.amadeus.elastic_scaling.pat.personal_access_token" -> In case PAT is chosen as authorisation mode, store the PAT to be used.
+
+    "com.amadeus.elastic_scaling.sp.TenantID" -> In case SP is chosed, store the Tenant ID
+    "com.amadeus.elastic_scaling.sp.ApplicationID" -> In case SP is chosen, store the Application ID of the selected Service Principal
+    "com.amadeus.elastic_scaling.sp.ApplicationPassword" -> In case SP is chosen, store the Application Secret of the selected Service Principal
+
 Example:
 
     spark.conf.set("com.amadeus.elastic_scaling.active", "true" )
+
+    spark.conf.set("com.amadeus.elastic_scaling.cluster_interface", "com.amadeus.elastic_scaling.cluster_interface.DatabricksClusterInterface")
+
+    spark.conf.set("com.amadeus.elastic_scaling.auth_mode", "PAT")
+    spark.conf.set("com.amadeus.elastic_scaling.personal_access_token", "<PAT-TOKEN>")
+    
+    spark.conf.set("com.amadeus.elastic_scaling.host", "https://adb-xxx.yy.azuredatabricks.net/")
 
 Then, instantiate the ElasticScaling class:
 
