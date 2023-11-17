@@ -50,4 +50,4 @@ jobs:
     - name: Publish with sbt
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: sbt release with-defaults
+      run: sbt "release with-defaults"
