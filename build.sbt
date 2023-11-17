@@ -2,8 +2,6 @@ name := "elastic_scaling"
 organization := "com.amadeus"
 ThisBuild / versionScheme := Some("semver-spec")
 
-releaseIgnoreUntrackedFiles := true
-
 scalaVersion := "2.12.12"
 
 libraryDependencies ++= Seq(
