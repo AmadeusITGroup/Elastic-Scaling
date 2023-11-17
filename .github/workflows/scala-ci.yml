@@ -47,6 +47,11 @@ jobs:
         distribution: 'adopt'
         java-version: '8'
 
+    - name: Set up Git user
+      run: |
+        git config user.name "Sbt Release"
+        git config user.email "no.email@sbt.com"
+
     - name: Publish with sbt
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
