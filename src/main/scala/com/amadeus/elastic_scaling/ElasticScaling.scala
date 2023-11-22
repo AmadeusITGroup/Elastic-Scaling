@@ -86,25 +86,33 @@ class ElasticScaling(val configuredBatchDuration: Long, val spark: SparkSession,
    *
    */
   private def scaleExecutors(meanOccupation: Double): Long = {
-    val executors = cluster_interface.getWorkers
-    val currentExecutorNumber = executors.length
+    val workers = cluster_interface.getWorkers
+    val currentWorkersNumber = workers.length
   
-    logger.info(s"Executors IDs (${currentExecutorNumber}): ${executors}")
+    logger.info(s"Executors IDs (${currentWorkersNumber}): ${workers}")
   
-    val neededWorkers : Int = computeExecutorNumber(meanOccupation, currentExecutorNumber)
+    val neededWorkersNumber : Int = computeExecutorNumber(meanOccupation, currentWorkersNumber)
 
     val scaling = cluster_interface.isClusterScaling
 
-    if (!scaling && cluster_interface.setWorkers(neededWorkers)) {
-      logger.info(s"New workers request successful.")
-    } else if (scaling) {
-      logger.info(s"Cluster is already scaling... ")
+    //Only scale if there is a need
+    if (currentWorkersNumber != neededWorkersNumber ){
+      logger.info(s"Action on workers needed ($currentWorkersNumber / $neededWorkersNumber): ")
+
+      if (!scaling && cluster_interface.setWorkers(neededWorkersNumber)) {
+        logger.info(s"\tNew workers request successful.")
+      } else if (scaling) {
+        logger.info(s"\tCluster is already scaling... ")
+      }
+      else {
+        logger.error(s"\tNew workers request failed.")
+      }
+    }else {
+      logger.info("No action on workers needed.")
     }
-    else {
-      logger.error(s"New workers request failed.")
-    }
+
   
-    neededWorkers
+    neededWorkersNumber
   }
   
   /**
